@@ -10,8 +10,6 @@
     }
  }
 
- console.log("Computer choice: " + getComputerChoice())
-
  // Function to take user choice and return it
  function getHumanChoice() {
     let rawChoice = prompt('Choose "rock", "paper" or "scissors"');
@@ -24,6 +22,8 @@
 
  // Function to play single round
  function playRound(humanChoice, computerChoice) {
+    console.log("You chose " + humanChoice)
+    console.log("Computer chose " + computerChoice)
     if (humanChoice === computerChoice) {
         return "It's a tie!";
     } else if (
@@ -38,7 +38,28 @@
     }
  }
 
- // Test usage
-console.log(playRound(getHumanChoice(), getComputerChoice())); 
-console.log("Human score: " + humanScore); 
-console.log("Computer score: " + computerScore);
+// Main game function, plays however many rounds put into function
+function playGame(rounds) {
+    let i = 0;
+    while (i<rounds) {
+        console.log("Game " + (i + 1));
+        console.log(playRound(getHumanChoice(), getComputerChoice())); 
+        console.log("Human score: " + humanScore); 
+        console.log("Computer score: " + computerScore);
+        i++;
+    }
+}
+
+// Call playGame function to play 5 rounds
+playGame(5);
+
+// Declare winner
+if (humanScore > computerScore) {
+    console.log("You win");
+} else if (humanScore < computerScore) {
+    console.log("You lose");
+} else {
+    console.log("It's a tie!");
+}
+
+
