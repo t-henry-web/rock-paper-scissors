@@ -10,57 +10,67 @@
     }
  }
 
- // Function to take user choice and return it
- function getHumanChoice() {
-    let rawChoice = prompt('Choose "rock", "paper" or "scissors"');
-    return rawChoice.toLowerCase();
- }
-
- // Initialise score variables
- var humanScore = 0;
- var computerScore = 0;
-
  // Function to play single round
  function playRound(humanChoice, computerChoice) {
-    console.log("You chose " + humanChoice)
-    console.log("Computer chose " + computerChoice)
+	choice.textContent = "You chose " + humanChoice + ", computer chose " + computerChoice
+	
     if (humanChoice === computerChoice) {
-        return "It's a tie!";
+		outcome.textContent = "It's a tie!"
+		
     } else if (
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "scissors" && computerChoice === "paper") ||
         (humanChoice === "paper" && computerChoice === "rock") ) {
             humanScore++;
-            return ("You win! " + humanChoice + " beats " + computerChoice);     
+            outcome.textContent = "1 point to you!";
+			
     } else {
         computerScore++;
-        return "You lose! " + computerChoice + " beats " + humanChoice;
+        outcome.textContent = "1 point to the computer!";
     }
+	
+	score.textContent = "Player: " + humanScore + " - Computer: " + computerScore;
+	
+	if (humanScore === winsRequired) {
+		winner.textContent = winsRequired + " points! You are the winner!"; 
+		disableButtons();
+	}
+	if (computerScore === winsRequired) {
+		winner.textContent = "Opponent has " + winsRequired + " points! You lose :(";
+		disableButtons();
+	}
+	
  }
 
-// Main game function, plays however many rounds put into function
-function playGame(rounds) {
-    let i = 0;
-    while (i<rounds) {
-        console.log("Game " + (i + 1));
-        console.log(playRound(getHumanChoice(), getComputerChoice())); 
-        console.log("Human score: " + humanScore); 
-        console.log("Computer score: " + computerScore);
-        i++;
-    }
+// Disables buttons once score of 5 has been reached
+function disableButtons() {
+	rock.disabled = true;
+    paper.disabled = true;
+    scissors.disabled = true;
 }
 
-// Call playGame function to play 5 rounds
-playGame(5);
+// Initialise variables
+let humanScore = 0;
+let computerScore = 0;
+const winsRequired = 5;
 
-// Declare winner
-console.log("Final score:");
-if (humanScore > computerScore) {
-    console.log("You win!!! " + humanScore + " to " + computerScore);
-} else if (humanScore < computerScore) {
-    console.log("You lose!!! " + humanScore + " to " + computerScore);
-} else {
-    console.log("It's a tie!!! " + humanScore + " all");
-}
+const rock = document.querySelector(".rock");
+const paper = document.querySelector(".paper");
+const scissors = document.querySelector(".scissors");
 
+// Player choices
+rock.addEventListener("click", () => {
+	playRound("rock", getComputerChoice());
+});
+paper.addEventListener("click", () => {
+	playRound("paper", getComputerChoice());
+});
+scissors.addEventListener("click", () => {
+	playRound("scissors", getComputerChoice());
+});
 
+const results = document.querySelector(".results");
+const choice = document.querySelector(".choice");
+const outcome = document.querySelector(".outcome");
+const score = document.querySelector(".score");
+const winner = document.querySelector(".winner");
